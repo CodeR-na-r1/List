@@ -27,6 +27,11 @@ class list
 		{
 			return this->next;
 		}
+
+		~Node()
+		{
+			data.~T();
+		}
 	};
 
 	long long int size;
@@ -47,13 +52,41 @@ public:
 
 		iterator& operator++()
 		{
+			if (!this->it)
+				throw "out range iterator!";
 			this->it = this->it->next;
 			return *this;
+		}
+
+		iterator operator++(int)
+		{
+			iterator res;
+			res.it = this->it;
+			++(*this);
+			return res;
 		}
 
 		T& operator *()
 		{
 			return this->it->data;
+		}
+
+		iterator& operator +=(int num)
+		{
+			for (int i = 0; i < num; i++)
+			{
+				this->it = this->it->next;
+				if (!this->it)
+					throw "out range iterator!";
+			}
+			return *this;
+		}
+
+		iterator operator +(int num)
+		{
+			iterator res = this->it;
+			res += num;
+			return res;
 		}
 
 		bool operator ==(iterator it_other)
@@ -92,7 +125,7 @@ public:
 		{
 			Node* temp = this->head;
 			this->head = this->head->next;
-			delete temp;
+			temp->~Node();
 			--this->size;
 		}
 		else
@@ -101,12 +134,12 @@ public:
 		return;
 	}
 
-	void pop_after(Node* ptr)
+	void pop_after(iterator ptr)
 	{
-		if (ptr && ptr->next)
+		if (ptr.it && ptr.it->next)
 		{
-			Node* temp = ptr->get_next();
-			ptr->next = ptr->next->next;
+			Node* temp = ptr.it->get_next();
+			ptr.it->next = ptr.it->next->next;
 			delete temp;
 			--this->size;
 		}
@@ -123,13 +156,14 @@ public:
 		return;
 	}
 
-	void push_after(Node* ptr, const T& d)
+	void push_after(iterator ptr, const T& d)
 	{
-		if (ptr)
+		if (ptr.it)
 		{
-			ptr->next = new Node(d, ptr->get_next());
+			ptr.it->next = new Node(d, ptr.it->get_next());
 			++this->size;
 		}
+		else { throw "error iterator!"; }
 		
 		return;
 	}
