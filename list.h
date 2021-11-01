@@ -31,6 +31,7 @@ class list
 		~Node()
 		{
 			data.~T();
+			next = nullptr;
 		}
 	};
 
@@ -134,7 +135,7 @@ public:
 		return;
 	}
 
-	void pop_after(iterator ptr)
+	void pop_after(iterator& ptr)
 	{
 		if (ptr.it && ptr.it->next)
 		{
@@ -156,7 +157,7 @@ public:
 		return;
 	}
 
-	void push_after(iterator ptr, const T& d)
+	void push_after(iterator& ptr, const T& d)
 	{
 		if (ptr.it)
 		{
@@ -165,6 +166,18 @@ public:
 		}
 		else { throw "error iterator!"; }
 		
+		return;
+	}
+
+	void clear()
+	{
+		while (this->head)
+		{
+			this->pop_front();
+		}
+
+		--this->size;
+
 		return;
 	}
 
