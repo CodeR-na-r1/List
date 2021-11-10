@@ -56,6 +56,40 @@ int main()
 	}
 
 	cout << l;
-	
+
+	// Joseph flavius
+
+	int size, step;
+	cout << "Enter number of people: " << endl;
+	cin >> size;
+	cout << "Enter step (how many people are skip) : " << endl;
+	cin >> step;
+
+	int count = size;
+	while (l.get_size() != size)
+	{
+		l.push_front(count);
+		--count;
+	}
+
+	list<int>::iterator it = l.begin();
+	count = 0;
+	while (l.get_size() != 1)
+	{
+		++count;
+
+		if (count == step)
+		{
+			(it + 1) == l.end() ? l.pop_front() : l.pop_after(it);
+;			count = 0;
+		}
+
+		it = ((it+1) ==l.end()) ? l.begin() : it+1;
+	}
+
+	cout << "Answer: " << l << endl;
+
+	l.clear();
+
 	return 0;
 }

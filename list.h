@@ -76,16 +76,17 @@ public:
 		{
 			for (int i = 0; i < num; i++)
 			{
-				this->it = this->it->next;
 				if (!this->it)
 					throw "out range iterator!";
+				this->it = this->it->next;
 			}
 			return *this;
 		}
 
 		iterator operator +(int num)
 		{
-			iterator res = this->it;
+			iterator res;
+			res.it = this->it;
 			res += num;
 			return res;
 		}
@@ -176,7 +177,7 @@ public:
 			this->pop_front();
 		}
 
-		--this->size;
+		this->size = 0;
 
 		return;
 	}
