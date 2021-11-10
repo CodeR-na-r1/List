@@ -60,10 +60,28 @@ int main()
 	// Joseph flavius
 
 	int size, step;
+
 	cout << "Enter number of people: " << endl;
+enter_size:
 	cin >> size;
+	if (cin.fail() || size < 1)
+	{
+		cin.clear();
+		cin.ignore(999, '\n');
+		cout << "error input! Try again: " << endl;
+		goto enter_size;
+	}
+
 	cout << "Enter step (how many people are skip) : " << endl;
+enter_step:
 	cin >> step;
+	if (cin.fail() || step < 1)
+	{
+		cin.clear();
+		cin.ignore(999, '\n');
+		cout << "error input! Try again: " << endl;
+		goto enter_step;
+	}
 
 	int count = size;
 	while (l.get_size() != size)
